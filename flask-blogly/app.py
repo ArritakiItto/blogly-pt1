@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db
+from models import db, connect_db, User
 
 
 app = Flask(__name__)
@@ -59,15 +59,15 @@ def users_show(user_id):
 def users_edit(user_id):
     """Handle form submission for updating an existing user"""
       
-      user = User.query.get_or_404(user_id)
-      user.first_name = request.form['first_name']
-      user.last_name = request.form['last_name']
-      user.image_url = request.form['image_url'] or None
+    user = User.query.get_or_404(user_id)
+    user.first_name = request.form['first_name']
+    user.last_name = request.form['last_name']
+    user.image_url = request.form['image_url'] or None
   
-      db.session.add(user)
-      db.session.commit()
+    db.session.add(user)
+    db.session.commit()
   
-      return redirect("/users")
+    return redirect("/users")
 
 @app.route('/users/<int:user_id>/delete', methods=["POST"])
 def users_destroy(user_id):
